@@ -87,80 +87,83 @@ We define y=5+4x+3x² for x=[-10,10]
 """
 
 # Inputs of the equation.
-x=numpy.linspace(-1,1,1000)
-y=5+4*x+3*x**2+6*x**3
+x=numpy.linspace(-10,10,1000)
+y=5+4*x-5*x**2+6*x**3
 
 num_weights = 4
 
-sol_per_pop = 8
+sol_per_pop = 32
 num_parents_mating = 4
 
 pop_size = (sol_per_pop,num_weights) # The population will have sol_per_pop chromosome where each chromosome has num_weights genes.
-new_population = numpy.random.uniform(low=-10.0, high=10.0, size=pop_size)
+new_population = numpy.random.uniform(low=-45.0, high=45.0, size=pop_size)
 
 best_outputs = []
 num_generations = 100
-
 print ("la pop initiale vaut", new_population)
 for generation in range(num_generations):
+    plt.clf()
 
-    print("Generation : ", generation)
+    # print("Generation : ", generation)
     # Measuring the fitness of the function parameters.
     finesse = func.cal_pop_fitness(x, y, new_population)
-    print("Fitness")
-    print(finesse)
-
+    # print("Fitness")
+    # print(finesse)
     best_outputs.append(min(finesse))
     # The best result in the current iteration.
-    print("Best result : ", min(finesse))
-    
+    # print("Best result : ", min(finesse))
     # Selecting the best parents in the population for mating.
     parents = func.select_mating_pool(new_population, finesse, 
                                       num_parents_mating)
-    print("Parents")
-    print(parents)
+    # print("Parents")
+    # print(parents)
 
     # Generating next generation using crossover.
     offspring_size=(pop_size[0]-parents.shape[0], num_weights)
-    print("offspring =", offspring_size)
+    # print("offspring =", offspring_size)
 
     offspring_crossover = func.crossover(parents, offspring_size)
-    print("Crossover")
-    print(offspring_crossover)
+    # print("Crossover")
+    # print(offspring_crossover)
 
     # Adding some variations to the offspring using mutation.
-    offspring_mutation = func.mutation(offspring_crossover, num_mutations=2)
-    print("Mutation")
-    print(offspring_mutation)
+    
+    offspring_mutation = func.mutation(offspring_crossover, num_mutations=4)
+    # print("Mutation")
+    # print(offspring_mutation)
 
     # Creating the new population based on the parents and offspring.
     new_population[0:parents.shape[0], :] = parents
-    print("new parent 1", new_population)
+    # print("new parent 1", new_population)
     new_population[parents.shape[0]:, :] = offspring_mutation
-    print("new parent 2", new_population)
+    # print("new parent 2", new_population)
 
     finesse = func.cal_pop_fitness(x,y, new_population)
 
     best_match_idx = finesse.index(min(finesse))
 
-    print("Best solution : ", new_population[best_match_idx, :])
-    print("Best solution fitness : ", finesse[best_match_idx])
+    # print("Best solution : ", new_population[best_match_idx, :])
+    # print("Best solution fitness : ", finesse[best_match_idx])
     b_opti=new_population[best_match_idx, :]
-    y_opti=b_opti[0]+b_opti[1]*x+b_opti[2]*x**2+b_opti[3]*x*3
-  
+    y_opti=b_opti[0]+b_opti[1]*x+b_opti[2]*x**2+b_opti[3]*x**3
+    plt.subplot(2, 1, 1)
     plt.plot(x,y,label="original")
     plt.plot(x,y_opti,label="estimé")
     plt.grid()
     plt.legend()
+    plt.subplot(2, 1, 2)
+    plt.grid()
+    plt.plot(best_outputs,label="finesse")
+    plt.legend()
     plt.show(block=False)
-    plt.pause(0.1)
-    plt.clf()
+    plt.pause(0.00001)
+    
 finesse = func.cal_pop_fitness(x,y, new_population)
 
 best_match_idx = finesse.index(min(finesse))
 
 print("Best solution : ", new_population[best_match_idx, :])
 print("Best solution fitness : ", finesse[best_match_idx])
-
+plt.show()
 
 # matplotlib.pyplot.show()
