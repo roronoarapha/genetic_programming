@@ -92,14 +92,17 @@ y=3*numpy.sin(x)+numpy.sin(4*x)-7*numpy.sin(5*x+6)
 
 num_weights = 5
 
-sol_per_pop = 32
-num_parents_mating = 8
+sol_per_pop = 64
+num_parents_mating = 4
 
 pop_size = (sol_per_pop,num_weights) # The population will have sol_per_pop chromosome where each chromosome has num_weights genes.
 new_population = numpy.random.uniform(low=-10.0, high=10.0, size=pop_size)
 
 best_outputs = []
-num_generations = 1000
+num_generations = 2000
+muta=5
+uni=1
+sum_muta=0
 print ("la pop initiale vaut", new_population)
 for generation in range(num_generations):
     plt.clf()
@@ -117,7 +120,11 @@ for generation in range(num_generations):
                                       num_parents_mating)
     # print("Parents")
     # print(parents)
-
+    if generation>2 and best_outputs[-1]==best_outputs[-2]:
+        sum_muta+=1
+    else:
+        sum_muta=0
+    
     # Generating next generation using crossover.
     offspring_size=(pop_size[0]-parents.shape[0], num_weights)
     # print("offspring =", offspring_size)
@@ -127,8 +134,13 @@ for generation in range(num_generations):
     # print(offspring_crossover)
 
     # Adding some variations to the offspring using mutation.
+    if sum_muta>200 and muta>1:
+        uni=uni*2
+        muta=muta-1
+        sum_muta=0
+        print("muta:",muta," uni:",uni)
     
-    offspring_mutation = func.mutation(offspring_crossover, num_mutations=5)
+    offspring_mutation = func.mutation(offspring_crossover, muta, uni)
     # print("Mutation")
     # print(offspring_mutation)
 
