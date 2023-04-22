@@ -1,7 +1,7 @@
 import numpy 
 import func
 import matplotlib.pyplot as plt 
-
+import math as m
 # equation_inputs = [4,-2,3.5,5,-11,-4.7]
 
 # # Number of the weights we are looking to optimize.
@@ -88,7 +88,7 @@ We define y=5+4x+3x² for x=[-10,10]
 
 # Inputs of the equation.
 x=numpy.linspace(-1,1,1000)
-y=5+4*x-5*x**2+6*x**3
+y=3*m.sin(x)+m.sin(4*x)+7*m.sin(5*x)
 
 num_weights = 4
 
