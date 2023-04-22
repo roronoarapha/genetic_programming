@@ -54,7 +54,7 @@ def cal_pop_fitness(xlist,ylist, pop):
         for i in range(len(xlist)):
             x=xlist[i]
             y=ylist[i]
-            diff=y-(pop[j][0]+pop[j][1]*x+pop[j][2]*x**2+pop[j][3]*x**3)
+            diff=y-(pop[j][0]*m.sin(x)+m.sin(pop[j][1]*x)-pop[j][2]*m.sin(pop[j][3]*x+pop[j][4]))
             sum=sum+abs(diff**2)
         finesse.append(sum)
     return finesse
@@ -94,7 +94,7 @@ def mutation(offspring_crossover, num_mutations):
         gene_idx = mutations_counter - 1
         for mutation_num in range(num_mutations):
             # The random value to be added to the gene.
-            random_value = numpy.random.uniform(-10, 10, 1)
+            random_value = numpy.random.uniform(-1, 1, 1)
             offspring_crossover[idx, gene_idx] = offspring_crossover[idx, gene_idx] + random_value
             gene_idx = gene_idx + mutations_counter
     return offspring_crossover

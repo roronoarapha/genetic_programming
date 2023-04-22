@@ -87,19 +87,19 @@ We define y=5+4x+3x² for x=[-10,10]
 """
 
 # Inputs of the equation.
-x=numpy.linspace(-1,1,1000)
-y=3*m.sin(x)+m.sin(4*x)+7*m.sin(5*x)
+x=numpy.linspace(-10,10,1000)
+y=3*numpy.sin(x)+numpy.sin(4*x)-7*numpy.sin(5*x+6)
 
-num_weights = 4
+num_weights = 5
 
 sol_per_pop = 32
-num_parents_mating = 4
+num_parents_mating = 8
 
 pop_size = (sol_per_pop,num_weights) # The population will have sol_per_pop chromosome where each chromosome has num_weights genes.
 new_population = numpy.random.uniform(low=-10.0, high=10.0, size=pop_size)
 
 best_outputs = []
-num_generations = 200
+num_generations = 1000
 print ("la pop initiale vaut", new_population)
 for generation in range(num_generations):
     plt.clf()
@@ -128,7 +128,7 @@ for generation in range(num_generations):
 
     # Adding some variations to the offspring using mutation.
     
-    offspring_mutation = func.mutation(offspring_crossover, num_mutations=3)
+    offspring_mutation = func.mutation(offspring_crossover, num_mutations=5)
     # print("Mutation")
     # print(offspring_mutation)
 
@@ -145,7 +145,7 @@ for generation in range(num_generations):
     # print("Best solution : ", new_population[best_match_idx, :])
     # print("Best solution fitness : ", finesse[best_match_idx])
     b_opti=new_population[best_match_idx, :]
-    y_opti=b_opti[0]+b_opti[1]*x+b_opti[2]*x**2+b_opti[3]*x**3
+    y_opti=b_opti[0]*numpy.sin(x)+numpy.sin(b_opti[1]*x)-b_opti[2]*numpy.sin(b_opti[3]*x+b_opti[4])
     plt.subplot(2, 1, 1)
     plt.plot(x,y,label="original")
     plt.plot(x,y_opti,label="estimé")
