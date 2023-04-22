@@ -55,7 +55,7 @@ def cal_pop_fitness(xlist,ylist, pop):
             x=xlist[i]
             y=ylist[i]
             diff=y-(pop[j][0]+pop[j][1]*x+pop[j][2]*x**2+pop[j][3]*x**3)
-            sum=sum+abs(diff)
+            sum=sum+abs(diff**2)
         finesse.append(sum)
     return finesse
 

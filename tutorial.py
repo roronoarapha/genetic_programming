@@ -87,7 +87,7 @@ We define y=5+4x+3x² for x=[-10,10]
 """
 
 # Inputs of the equation.
-x=numpy.linspace(-10,10,1000)
+x=numpy.linspace(-1,1,1000)
 y=5+4*x-5*x**2+6*x**3
 
 num_weights = 4
@@ -96,10 +96,10 @@ sol_per_pop = 32
 num_parents_mating = 4
 
 pop_size = (sol_per_pop,num_weights) # The population will have sol_per_pop chromosome where each chromosome has num_weights genes.
-new_population = numpy.random.uniform(low=-45.0, high=45.0, size=pop_size)
+new_population = numpy.random.uniform(low=-10.0, high=10.0, size=pop_size)
 
 best_outputs = []
-num_generations = 100
+num_generations = 200
 print ("la pop initiale vaut", new_population)
 for generation in range(num_generations):
     plt.clf()
@@ -128,7 +128,7 @@ for generation in range(num_generations):
 
     # Adding some variations to the offspring using mutation.
     
-    offspring_mutation = func.mutation(offspring_crossover, num_mutations=4)
+    offspring_mutation = func.mutation(offspring_crossover, num_mutations=3)
     # print("Mutation")
     # print(offspring_mutation)
 
